@@ -13,6 +13,8 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Data;
+using System.Diagnostics;
+using System.Xml.Linq;
 
 namespace Week9DisconnectedModel
 {
@@ -84,6 +86,19 @@ namespace Week9DisconnectedModel
             grdProducts.ItemsSource = crud.GetAllProducts().DefaultView;
 
             MessageBox.Show("Product is Updated!");
+        }
+
+        private void btnDelete_Click(object sender, RoutedEventArgs e)
+        {
+            int id = int.Parse(txtId.Text);
+
+            crud.DeleteProduct(id);
+
+            grdProducts.ItemsSource = crud.GetAllProducts().DefaultView;
+
+            MessageBox.Show("Product is Deleted!");
+
+            //if delete original data, will get constrain, have to delete from DB first then in local row
         }
     }
 }

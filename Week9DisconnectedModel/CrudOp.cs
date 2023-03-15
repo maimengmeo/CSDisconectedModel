@@ -24,13 +24,15 @@ namespace Week9DisconnectedModel
             conn = new SqlConnection(Data.ConnectionStr);
             adp = new SqlDataAdapter(query, conn);
             cmdBuilder = new SqlCommandBuilder(adp);
-            ds = new DataSet();
+            //ds = new DataSet();
 
             FillDataSet();
         }
 
         private void FillDataSet() //refresh dataset after crud
         {
+            ds = new DataSet();
+
             adp.Fill(ds, "Products");
             tblProducts = ds.Tables[0];
 
@@ -76,6 +78,17 @@ namespace Week9DisconnectedModel
             row["UnitsInStock"] = quantity;
 
             adp.UpdateCommand = cmdBuilder.GetUpdateCommand();
+
+            adp.Update(tblProducts);
+        }
+
+        public void DeleteProduct(int id) //these type should match with the DB. This case it's money & smallint == decimal & short in c#
+        {
+            DataRow row = tblProducts.Rows.Find(id);
+
+            row.Delete();
+
+            adp.DeleteCommand = cmdBuilder.GetDeleteCommand();
 
             adp.Update(tblProducts);
         }
