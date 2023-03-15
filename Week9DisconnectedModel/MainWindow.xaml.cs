@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Data;
 
 namespace Week9DisconnectedModel
 {
@@ -21,6 +22,7 @@ namespace Week9DisconnectedModel
     public partial class MainWindow : Window
     {
         private Data data = new Data();
+        private CrudOp crud = new CrudOp();
 
         public MainWindow()
         {
@@ -29,13 +31,32 @@ namespace Week9DisconnectedModel
 
         private void btnLoadAllProducts_Click(object sender, RoutedEventArgs e)
         {
-            grdProducts.ItemsSource = data.GetAllProducts().DefaultView;
+            //grdProducts.ItemsSource = data.GetAllProducts().DefaultView;
+            grdProducts.ItemsSource = crud.GetAllProducts().DefaultView;
         }
 
         private void btnShowWindow2_Click(object sender, RoutedEventArgs e)
         {
             DataSetWithMulTables win2 = new DataSetWithMulTables();
             win2.Show();
+        }
+
+        private void btnFind_Click(object sender, RoutedEventArgs e)
+        {
+            int id = int.Parse(txtId.Text);
+
+            DataRow row = crud.GetProductById(id);
+
+            if(row != null)
+            {
+                txtName.Text = row["ProductName"].ToString();
+                txtPrice.Text = row["UnitPrice"].ToString();
+                txtQuantity.Text = row["UnitsInStock"].ToString();
+            } else
+            {
+                MessageBox.Show("Invalid ID. Please Try Again!");
+                txtName.Text = txtPrice.Text = txtQuantity.Text = "";
+            }
         }
     }
 }
