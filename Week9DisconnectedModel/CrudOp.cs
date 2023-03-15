@@ -67,6 +67,18 @@ namespace Week9DisconnectedModel
             
             adp.Update(tblProducts);
         }
-        
+
+        public void UpdateProduct(int id,string name, decimal price, short quantity) //these type should match with the DB. This case it's money & smallint == decimal & short in c#
+        {
+            DataRow row = tblProducts.Rows.Find(id);
+            row["ProductName"] = name;
+            row["UnitPrice"] = price;
+            row["UnitsInStock"] = quantity;
+
+            adp.UpdateCommand = cmdBuilder.GetUpdateCommand();
+
+            adp.Update(tblProducts);
+        }
+
     }
 }
