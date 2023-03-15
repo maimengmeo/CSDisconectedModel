@@ -53,5 +53,20 @@ namespace Week9DisconnectedModel
             return row;
 
         }
+
+        public void InsertProduct(string name, decimal price, short quantity) //these type should match with the DB. This case it's money & smallint == decimal & short in c#
+        {
+            DataRow newRow = tblProducts.NewRow();
+            newRow["ProductName"] = name;
+            newRow["UnitPrice"] = price;
+            newRow["UnitsInStock"] = quantity;
+
+            tblProducts.Rows.Add(newRow);
+
+            adp.InsertCommand = cmdBuilder.GetInsertCommand();
+            
+            adp.Update(tblProducts);
+        }
+        
     }
 }

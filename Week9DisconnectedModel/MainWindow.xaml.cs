@@ -58,5 +58,18 @@ namespace Week9DisconnectedModel
                 txtName.Text = txtPrice.Text = txtQuantity.Text = "";
             }
         }
+
+        private void btnInsert_Click(object sender, RoutedEventArgs e)
+        {
+            string name = txtName.Text;
+            decimal price = decimal.Parse(txtPrice.Text);
+            short qty = short.Parse(txtQuantity.Text);
+
+            crud.InsertProduct(name, price, qty);
+
+            grdProducts.ItemsSource = crud.GetAllProducts().DefaultView;
+
+            MessageBox.Show("Product is Added!");
+        }
     }
 }
